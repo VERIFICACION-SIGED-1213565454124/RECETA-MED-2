@@ -6,7 +6,7 @@
 body {
   background-color: #dce1e7;
   margin: 0;
-  padding: 20px;
+  padding: 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@ body {
   background: #ffffff;
   width: 100%;
   max-width: 210mm;
-  padding: 20px 25px;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   margin-bottom: 30px;
@@ -79,6 +79,7 @@ label {
 }
 
 input[type="text"], select, textarea {
+  width: 100%;
   padding: 8px 10px;
   border: 1px solid #aaa;
   border-radius: 4px;
@@ -441,7 +442,56 @@ input[type="text"]:focus, select:focus, textarea:focus {
   font-family: Times New Roman, serif;
 }
 
-/* Reglas Impresión */
+/* =========================================================
+   ADAPTACIÓN PARA MÓVILES (RESPONSIVE DESIGN)
+   ========================================================= */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 10px 5px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  /* Transforma grillas de varias columnas en una sola columna en móvil */
+  .f-group-2col, 
+  .f-group-3col {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .meds-selector-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-add {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-generate, 
+  .btn-print-large {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* Permite scroll horizontal en la vista previa de la receta en pantallas pequeñas sin romper la hoja */
+  .documento {
+    transform-origin: top left;
+    max-width: none;
+    overflow-x: auto;
+  }
+}
+
+/* =========================================================
+   REGLAS DE IMPRESIÓN (SIN CAMBIOS)
+   ========================================================= */
 @page {
   size: A4;
   margin: 0;
@@ -463,6 +513,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
     width: 210mm !important;
     height: 297mm !important;
     position: relative !important;
+    overflow: visible !important;
   }
   
   .header-grid {
