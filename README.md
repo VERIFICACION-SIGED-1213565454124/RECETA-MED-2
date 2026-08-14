@@ -1,1 +1,0 @@
-# RECETA-MED-2
