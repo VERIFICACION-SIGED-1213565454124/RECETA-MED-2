@@ -12,9 +12,7 @@ body {
   align-items: center;
 }
 
-/* =========================================================
-   ESTILOS DEL FORMULARIO DE CAPTURA
-   ========================================================= */
+/* Formulario Limpio y Ordenado Verticalmente */
 .form-container {
   background: #ffffff;
   width: 100%;
@@ -33,17 +31,16 @@ body {
   padding-bottom: 8px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 15px;
+.form-vertical-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 fieldset {
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 12px 15px;
+  padding: 14px 18px;
   background: #fdfdfd;
 }
 
@@ -63,14 +60,14 @@ legend {
 .f-group-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 10px;
 }
 
 .f-group-3col {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 10px;
 }
 
@@ -82,7 +79,7 @@ label {
 }
 
 input[type="text"], select, textarea {
-  padding: 7px 9px;
+  padding: 8px 10px;
   border: 1px solid #aaa;
   border-radius: 4px;
   font-size: 12px;
@@ -92,10 +89,6 @@ input[type="text"], select, textarea {
 input[type="text"]:focus, select:focus, textarea:focus {
   border-color: #0056b3;
   box-shadow: 0 0 4px rgba(0,86,179,0.3);
-}
-
-.meds-fieldset {
-  margin-bottom: 15px;
 }
 
 .meds-selector-row {
@@ -165,12 +158,12 @@ input[type="text"]:focus, select:focus, textarea:focus {
 .documento {
   background: white;
   width: 210mm;
-  height: 297mm; /* Altura A4 estricta */
+  height: 297mm;
   padding: 8mm 12mm 12mm 12mm;
   box-shadow: 0 0 12px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
-  position: relative; /* Clave para anclar el footer al fondo */
+  position: relative;
 }
 
 .top-title-right {
@@ -184,7 +177,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
 .center { text-align: center; }
 .text-right { text-align: right; }
 
-/* Header Grid */
 .header-grid {
   display: grid;
   grid-template-columns: 1fr 430px;
@@ -213,10 +205,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
   margin: 6px 0 10px 0;
 }
 
-.titulos-bloque {
-  text-align: center;
-}
-
 .subtitulo {
   font-size: 12px;
   font-weight: 400;
@@ -232,7 +220,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
   font-family: 'Times New Roman', Times, serif;
 }
 
-/* Cuadro Paciente */
 .box-paciente {
   border: 3px double #000;
   padding: 4px 8px;
@@ -261,9 +248,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
   font-size: 9.5px;
 }
 
-.paciente-bloque {
-  margin: 1px 0;
-}
+.paciente-bloque { margin: 1px 0; }
 
 .label-top-sm {
   display: block;
@@ -273,9 +258,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
   color: #000;
 }
 
-.paciente-nombre {
-  font-size: 10.5px;
-}
+.paciente-nombre { font-size: 10.5px; }
 
 .curp-row {
   display: flex;
@@ -305,14 +288,9 @@ input[type="text"]:focus, select:focus, textarea:focus {
   gap: 1px;
 }
 
-.right-align {
-  align-items: flex-end;
-}
+.right-align { align-items: flex-end; }
 
-/* Sección Intermedia */
-.middle-section {
-  margin: 10px 0 6px 0;
-}
+.middle-section { margin: 10px 0 6px 0; }
 
 .middle-grid {
   display: grid;
@@ -337,10 +315,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
   grid-template-columns: 1fr 70px;
   align-items: center;
   gap: 10px;
-}
-
-.folio-container {
-  text-align: left;
 }
 
 .folio-text {
@@ -368,9 +342,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
   margin-top: 8px;
 }
 
-.direccion-text {
-  font-size: 10px;
-}
+.direccion-text { font-size: 10px; }
 
 .farmacia-msg {
   font-size: 10.5px;
@@ -378,7 +350,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
   text-align: right;
 }
 
-/* Cuerpo Principal Compacto */
 .body-box {
   border: 1px solid #000;
   padding: 6px 10px;
@@ -448,7 +419,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
   font-weight: bold;
 }
 
-/* Pie Inferior al fondo de la página */
 .page-footer-url {
   position: absolute;
   bottom: 8mm;
@@ -471,9 +441,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
   font-family: Times New Roman, serif;
 }
 
-/* =========================================================
-   REGLAS DE IMPRESIÓN (OCULTA EL FORMULARIO)
-   ========================================================= */
+/* Reglas Impresión */
 @page {
   size: A4;
   margin: 0;
@@ -485,7 +453,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
     padding: 0;
   }
   
-  /* Oculta completamente el formulario de captura al imprimir */
   .form-container {
     display: none !important;
   }
