@@ -14,8 +14,9 @@
   <div class="form-container">
     <h2>Formulario de Captura de Receta Médica</h2>
     
-    <div class="form-grid">
-      <!-- Datos del Paciente -->
+    <div class="form-vertical-stack">
+      
+      <!-- 1. Datos del Paciente -->
       <fieldset>
         <legend>Datos del Paciente</legend>
         <div class="f-group">
@@ -62,26 +63,37 @@
         </div>
       </fieldset>
 
-      <!-- Datos del Documento y Médico -->
+      <!-- 2. Datos del Documento, Logo y Médico (Abajo de Paciente) -->
       <fieldset>
         <legend>Datos del Documento y Médico</legend>
+        
         <div class="f-group">
-          <label>Folio:</label>
-          <input type="text" id="f_folio" value="24010400686466">
+          <label>URL del Logo IMSS:</label>
+          <input type="text" id="f_logo_url" value="imss.png">
         </div>
+
+        <div class="f-group-2col">
+          <div>
+            <label>Folio:</label>
+            <input type="text" id="f_folio" value="24010400686466">
+          </div>
+          <div>
+            <label>Fecha Expedición Receta:</label>
+            <input type="text" id="f_fecha_receta" value="Viernes, 31 de Julio del 2026">
+          </div>
+        </div>
+
         <div class="f-group">
           <label>Dirección Farmacia / Unidad:</label>
           <input type="text" id="f_direccion" value="Lerdo de Tejada 112, Real de Villa de García, 66000 García, N.L.">
         </div>
-        <div class="f-group">
-          <label>Fecha Expedición Receta:</label>
-          <input type="text" id="f_fecha_receta" value="Viernes, 31 de Julio del 2026">
-        </div>
+
         <div class="f-group">
           <label>Nombre del Médico:</label>
           <input type="text" id="f_medico" value="VICENTE ALCANTARA SANCHEZ">
         </div>
-        <div class="f-group-2col">
+
+        <div class="f-group-3col">
           <div>
             <label>Cédula Prof.:</label>
             <input type="text" id="f_cedula" value="3162437">
@@ -90,55 +102,56 @@
             <label>Matrícula:</label>
             <input type="text" id="f_matricula" value="99155909">
           </div>
-        </div>
-        <div class="f-group">
-          <label>Fecha Impresión Pie (DD/MM/AAAA):</label>
-          <input type="text" id="f_fecha_pie" value="29/07/2026">
+          <div>
+            <label>Fecha Pie (DD/MM/AAAA):</label>
+            <input type="text" id="f_fecha_pie" value="29/07/2026">
+          </div>
         </div>
       </fieldset>
+
+      <!-- 3. Módulo de Medicamentos IMSS -->
+      <fieldset class="meds-fieldset">
+        <legend>Prescripción y Selección de Medicamentos IMSS</legend>
+        
+        <div class="meds-selector-row">
+          <label>Catálogo Frecuente IMSS:</label>
+          <select id="select_imss">
+            <option value="">-- Seleccionar Tratamiento Predefinido --</option>
+            <optgroup label="Diarrea / Gastrointestinal">
+              <option value="bismuto">Subsalicilato de Bismuto (Suspensión)</option>
+              <option value="loperamida">Loperamida (Cápsulas)</option>
+              <option value="omeprazol">Omeprazol (Cápsulas)</option>
+              <option value="metoclopramida">Metoclopramida (Tabletas)</option>
+            </optgroup>
+            <optgroup label="Fiebre / Dolor / Inflamación">
+              <option value="paracetamol">Paracetamol 500 mg (Tabletas)</option>
+              <option value="ibuprofeno">Ibuprofeno 400 mg (Tabletas)</option>
+              <option value="naproxeno">Naproxeno 250 mg (Tabletas)</option>
+              <option value="ketorolaco">Ketorolaco 10 mg (Tabletas)</option>
+            </optgroup>
+            <optgroup label="Infecciones Respiratorias / Antibióticos">
+              <option value="trimetoprima">Trimetoprima / Sulfametoxazol (Tabletas)</option>
+              <option value="amoxicilina">Amoxicilina 500 mg (Cápsulas)</option>
+              <option value="amoxicilina_clav">Amoxicilina con Ácido Clavulánico (Tabletas)</option>
+              <option value="ambroxol">Ambroxol (Jarabe)</option>
+            </optgroup>
+            <optgroup label="Padecimientos Crónicos (Hipertensión / Diabetes)">
+              <option value="losartan">Losartán 50 mg (Tabletas)</option>
+              <option value="captopril">Captopril 25 mg (Tabletas)</option>
+              <option value="metformina">Metformina 850 mg (Tabletas)</option>
+              <option value="glibenclamida">Glibenclamida 5 mg (Tabletas)</option>
+            </optgroup>
+          </select>
+          <button type="button" onclick="agregarMedicamentoPredefinido()" class="btn-add"><b>+</b> Agregar Medicamento</button>
+        </div>
+
+        <div class="f-group">
+          <label>Texto Completo de Prescripción (Editable):</label>
+          <textarea id="f_prescripcion_text" rows="8"></textarea>
+        </div>
+      </fieldset>
+
     </div>
-
-    <!-- Módulo de Medicamentos IMSS -->
-    <fieldset class="meds-fieldset">
-      <legend>Prescripción y Selección de Medicamentos IMSS</legend>
-      
-      <div class="meds-selector-row">
-        <label>Catálogo Frecuente IMSS:</label>
-        <select id="select_imss">
-          <option value="">-- Seleccionar Tratamiento Predefinido --</option>
-          <optgroup label="Diarrea / Gastrointestinal">
-            <option value="bismuto">Subsalicilato de Bismuto (Suspensión)</option>
-            <option value="loperamida">Loperamida (Cápsulas)</option>
-            <option value="omeprazol">Omeprazol (Cápsulas)</option>
-            <option value="metoclopramida">Metoclopramida (Tabletas)</option>
-          </optgroup>
-          <optgroup label="Fiebre / Dolor / Inflamación">
-            <option value="paracetamol">Paracetamol 500 mg (Tabletas)</option>
-            <option value="ibuprofeno">Ibuprofeno 400 mg (Tabletas)</option>
-            <option value="naproxeno">Naproxeno 250 mg (Tabletas)</option>
-            <option value="ketorolaco">Ketorolaco 10 mg (Tabletas)</option>
-          </optgroup>
-          <optgroup label="Infecciones Respiratorias / Antibióticos">
-            <option value="trimetoprima">Trimetoprima / Sulfametoxazol (Tabletas)</option>
-            <option value="amoxicilina">Amoxicilina 500 mg (Cápsulas)</option>
-            <option value="amoxicilina_clav">Amoxicilina con Ácido Clavulánico (Tabletas)</option>
-            <option value="ambroxol">Ambroxol (Jarabe)</option>
-          </optgroup>
-          <optgroup label="Padecimientos Crónicos (Hipertensión / Diabetes)">
-            <option value="losartan">Losartán 50 mg (Tabletas)</option>
-            <option value="captopril">Captopril 25 mg (Tabletas)</option>
-            <option value="metformina">Metformina 850 mg (Tabletas)</option>
-            <option value="glibenclamida">Glibenclamida 5 mg (Tabletas)</option>
-          </optgroup>
-        </select>
-        <button type="button" onclick="agregarMedicamentoPredefinido()" class="btn-add"><b>+</b> Agregar Medicamento</button>
-      </div>
-
-      <div class="f-group">
-        <label>Texto Completo de Prescripción (Editable):</label>
-        <textarea id="f_prescripcion_text" rows="8"></textarea>
-      </div>
-    </fieldset>
 
     <div class="form-actions">
       <button onclick="generarYActualizarReceta()" class="btn-generate">Actualizar Vista Previa</button>
@@ -154,7 +167,7 @@
     <div class="header-grid">
       <div class="header-left">
         <div class="logo-container">
-          <img id="logoImg" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/IMSS_Logo.svg" alt="Logo IMSS">
+          <img id="logoImg" src="imss.png" alt="Logo IMSS">
         </div>
         <hr class="header-divider">
         <div class="titulos-bloque">
@@ -280,7 +293,6 @@
 
   <!-- Script Lógica Formulario y Generación -->
   <script>
-    // Catálogo de Medicamentos Estándar del IMSS
     const CATALOGO_IMSS = {
       bismuto: `SUBSALICILATO DE BISMUTO SUSPENSIÓN. CADA 100 ML CON TIENEN: SUBSALICILATO DE BISMUTO 1.75 G. EN VASE CON 240 ML. Vía de administración: Oral. 30 ML cada 6 hora(s) durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
       loperamida: `LOPERAMIDA CÁPSULA. CADA CÁPSULA CONTIENE: CLORHIDRATO DE LOPERAMIDA 2 MG. EN VASE CON 12 CÁPSULAS. Vía de administración: Oral. Una cápsula cada 8 hora(s) durante 3 día(s).\nCantidad a surtir: 1 ENV.`,
@@ -300,7 +312,6 @@
       glibenclamida: `GLIBENCLAMIDA TABLETA. CADA TABLETA CONTIENE: GLIBENCLAMIDA 5 MG. EN VASE CON 50 TABLETAS. Vía de administración: Oral. Tomar una tarjeta cada 24 hora(s) antes del desayuno.\nCantidad a surtir: 1 ENV.`
     };
 
-    // Cargar medicamentos iniciales de ejemplo
     document.getElementById('f_prescripcion_text').value = 
       CATALOGO_IMSS.bismuto + "\n\n" + CATALOGO_IMSS.loperamida + "\n\n" + CATALOGO_IMSS.trimetoprima;
 
@@ -328,7 +339,6 @@
       const lineasProcesadas = lineas.map(linea => {
         let l = linea;
 
-        // Subrayar envases y volúmenes en ML
         l = l.replace(/\b(\d+\s+ENV\.)/g, '<span class="subrayado-mayuscula">$1</span>');
         l = l.replace(/\b(\d+\s+ML)\b/g, '<span class="subrayado-mayuscula">$1</span>');
 
@@ -339,7 +349,6 @@
           let parteFarmaco = match[1];
           let parteVia = match[2];
 
-          // Subrayar palabras complejas/fármacos en mayúsculas
           parteFarmaco = parteFarmaco.replace(/\b([A-ZÁÉÍÓÚÑ0-9\/\.\-]+(?:\s+[A-ZÁÉÍÓÚÑ0-9\/\.\-]+)*)\b/g, function(m) {
             if (/[A-ZÁÉÍÓÚÑ]/.test(m)) {
               return '<span class="subrayado-mayuscula">' + m + '</span>';
@@ -357,7 +366,13 @@
     }
 
     function generarYActualizarReceta() {
-      // 1. Mapeo de campos de texto
+      // 1. Logo
+      const logoUrl = document.getElementById('f_logo_url').value;
+      if (logoUrl.trim() !== '') {
+        document.getElementById('logoImg').src = logoUrl;
+      }
+
+      // 2. Mapeo de campos de texto
       document.getElementById('out_nombre').innerText = document.getElementById('f_nombre').value;
       document.getElementById('out_nss').innerText = document.getElementById('f_nss').value;
       document.getElementById('out_amed').innerText = document.getElementById('f_amed').value;
@@ -378,11 +393,11 @@
       document.getElementById('out_matricula').innerText = document.getElementById('f_matricula').value;
       document.getElementById('out_fecha_pie').innerText = document.getElementById('f_fecha_pie').value;
 
-      // 2. Formatear y Renderizar Medicamentos
+      // 3. Formatear y Renderizar Medicamentos
       const rawText = document.getElementById('f_prescripcion_text').value;
       document.getElementById('out_meds_formatted').innerHTML = formatearMedicamentos(rawText);
 
-      // 3. Generar Código de Barras
+      // 4. Generar Código de Barras
       JsBarcode("#barcode", folio, {
         format: "CODE128",
         height: 60,
@@ -391,7 +406,7 @@
         margin: 0
       });
 
-      // 4. Generar QR
+      // 5. Generar QR
       document.getElementById("qrcode").innerHTML = "";
       new QRCode(document.getElementById("qrcode"), {
         text: folio,
@@ -400,7 +415,6 @@
       });
     }
 
-    // Inicializar al cargar la página
     window.onload = function() {
       generarYActualizarReceta();
     };
