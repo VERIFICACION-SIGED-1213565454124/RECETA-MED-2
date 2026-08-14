@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Receta IMSS</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- ================= FORMULARIO DE CAPTURA ================= -->
+  <div class="form-container">
+    <h2>Formulario de Captura de Receta Médica</h2>
+    
+    <div class="form-grid">
+      <!-- Datos del Paciente -->
+      <fieldset>
+        <legend>Datos del Paciente</legend>
+        <div class="f-group">
+          <label>Nombre Completo:</label>
+          <input type="text" id="f_nombre" value="PATRICIA MARÍA VEGA SOLIS">
+        </div>
+        <div class="f-group-2col">
+          <div>
+            <label>NSS:</label>
+            <input type="text" id="f_nss" value="0396786874-0">
+          </div>
+          <div>
+            <label>A MED.:</label>
+            <input type="text" id="f_amed" value="1F19780R">
+          </div>
+        </div>
+        <div class="f-group">
+          <label>CURP:</label>
+          <input type="text" id="f_curp" value="VESP781013MSPGLT02">
+        </div>
+        <div class="f-group-2col">
+          <div>
+            <label>Delegación:</label>
+            <input type="text" id="f_delegacion" value="NUEVO LEON">
+          </div>
+          <div>
+            <label>CVE PTAL:</label>
+            <input type="text" id="f_cveptal" value="010113252110">
+          </div>
+        </div>
+        <div class="f-group-3col">
+          <div>
+            <label>Unidad:</label>
+            <input type="text" id="f_unidad" value="UMF No. 24">
+          </div>
+          <div>
+            <label>Turno:</label>
+            <input type="text" id="f_turno" value="VESPERTINO">
+          </div>
+          <div>
+            <label>Consultorio:</label>
+            <input type="text" id="f_consultorio" value="2">
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Datos del Documento y Médico -->
+      <fieldset>
+        <legend>Datos del Documento y Médico</legend>
+        <div class="f-group">
+          <label>Folio:</label>
+          <input type="text" id="f_folio" value="24010400686466">
+        </div>
+        <div class="f-group">
+          <label>Dirección Farmacia / Unidad:</label>
+          <input type="text" id="f_direccion" value="Lerdo de Tejada 112, Real de Villa de García, 66000 García, N.L.">
+        </div>
+        <div class="f-group">
+          <label>Fecha Expedición Receta:</label>
+          <input type="text" id="f_fecha_receta" value="Viernes, 31 de Julio del 2026">
+        </div>
+        <div class="f-group">
+          <label>Nombre del Médico:</label>
+          <input type="text" id="f_medico" value="VICENTE ALCANTARA SANCHEZ">
+        </div>
+        <div class="f-group-2col">
+          <div>
+            <label>Cédula Prof.:</label>
+            <input type="text" id="f_cedula" value="3162437">
+          </div>
+          <div>
+            <label>Matrícula:</label>
+            <input type="text" id="f_matricula" value="99155909">
+          </div>
+        </div>
+        <div class="f-group">
+          <label>Fecha Impresión Pie (DD/MM/AAAA):</label>
+          <input type="text" id="f_fecha_pie" value="29/07/2026">
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- Módulo de Medicamentos IMSS -->
+    <fieldset class="meds-fieldset">
+      <legend>Prescripción y Selección de Medicamentos IMSS</legend>
+      
+      <div class="meds-selector-row">
+        <label>Catálogo Frecuente IMSS:</label>
+        <select id="select_imss">
+          <option value="">-- Seleccionar Tratamiento Predefinido --</option>
+          <optgroup label="Diarrea / Gastrointestinal">
+            <option value="bismuto">Subsalicilato de Bismuto (Suspensión)</option>
+            <option value="loperamida">Loperamida (Cápsulas)</option>
+            <option value="omeprazol">Omeprazol (Cápsulas)</option>
+            <option value="metoclopramida">Metoclopramida (Tabletas)</option>
+          </optgroup>
+          <optgroup label="Fiebre / Dolor / Inflamación">
+            <option value="paracetamol">Paracetamol 500 mg (Tabletas)</option>
+            <option value="ibuprofeno">Ibuprofeno 400 mg (Tabletas)</option>
+            <option value="naproxeno">Naproxeno 250 mg (Tabletas)</option>
+            <option value="ketorolaco">Ketorolaco 10 mg (Tabletas)</option>
+          </optgroup>
+          <optgroup label="Infecciones Respiratorias / Antibióticos">
+            <option value="trimetoprima">Trimetoprima / Sulfametoxazol (Tabletas)</option>
+            <option value="amoxicilina">Amoxicilina 500 mg (Cápsulas)</option>
+            <option value="amoxicilina_clav">Amoxicilina con Ácido Clavulánico (Tabletas)</option>
+            <option value="ambroxol">Ambroxol (Jarabe)</option>
+          </optgroup>
+          <optgroup label="Padecimientos Crónicos (Hipertensión / Diabetes)">
+            <option value="losartan">Losartán 50 mg (Tabletas)</option>
+            <option value="captopril">Captopril 25 mg (Tabletas)</option>
+            <option value="metformina">Metformina 850 mg (Tabletas)</option>
+            <option value="glibenclamida">Glibenclamida 5 mg (Tabletas)</option>
+          </optgroup>
+        </select>
+        <button type="button" onclick="agregarMedicamentoPredefinido()" class="btn-add"><b>+</b> Agregar Medicamento</button>
+      </div>
+
+      <div class="f-group">
+        <label>Texto Completo de Prescripción (Editable):</label>
+        <textarea id="f_prescripcion_text" rows="8"></textarea>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button onclick="generarYActualizarReceta()" class="btn-generate">Actualizar Vista Previa</button>
+      <button onclick="window.print()" class="btn-print-large">Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+
+  <!-- ================= VISTA PREVIA DE LA RECETA A4 ================= -->
+  <div class="documento" id="seccion_receta">
+    
+    <div class="top-title-right">Página 1 de 1</div>
+
+    <div class="header-grid">
+      <div class="header-left">
+        <div class="logo-container">
+          <img id="logoImg" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/IMSS_Logo.svg" alt="Logo IMSS">
+        </div>
+        <hr class="header-divider">
+        <div class="titulos-bloque">
+          <p class="subtitulo">DIRECCIÓN DE PRESTACIONES MÉDICAS</p>
+          <h1 class="titulo">RECETA INDIVIDUAL</h1>
+        </div>
+      </div>
+
+      <div class="box-paciente">
+        <div class="nss-amed-row">
+          <div class="nss-group">
+            <span class="lbl-bold">NSS:</span>
+            <span id="out_nss" class="bold"></span>
+          </div>
+          <div class="amed-group">
+            <span class="lbl-bold">A MED.:</span>
+            <span id="out_amed" class="bold text-right"></span>
+          </div>
+        </div>
+
+        <div class="paciente-bloque center">
+          <span class="label-top-sm">NOMBRE DEL PACIENTE</span>
+          <span id="out_nombre" class="bold paciente-nombre"></span>
+        </div>
+
+        <div class="curp-row">
+          <span class="lbl-bold">CURP:</span>
+          <span id="out_curp" class="bold"></span>
+        </div>
+
+        <div class="grid-2col">
+          <div class="campo-inline">
+            <label>DELEGACIÓN:</label>
+            <span id="out_delegacion" class="bold"></span>
+          </div>
+          <div class="campo-inline">
+            <label>CVE PTAL</label>
+            <span id="out_cveptal" class="bold"></span>
+          </div>
+          <div class="campo-inline">
+            <label>UNIDAD:</label>
+            <span id="out_unidad" class="bold"></span>
+          </div>
+          <div class="campo-inline">
+            <label>TURNO:</label>
+            <span id="out_turno" class="bold"></span>
+          </div>
+          <div class="campo-inline">
+            <label>CONSULTORIO:</label>
+            <span id="out_consultorio" class="bold"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="middle-section">
+      <div class="middle-grid">
+        <div class="barcode-container">
+          <svg id="barcode"></svg>
+        </div>
+
+        <div class="folio-qr-block">
+          <div class="folio-container">
+            <p class="folio-text">Folio: &nbsp;&nbsp;&nbsp;&nbsp;<span id="out_folio"></span></p>
+            <p class="vigencia">ESTA RECETA NO SE SURTIRÁ DESPUÉS DE LAS 72 HORAS DE SU EXPEDICIÓN</p>
+          </div>
+          <div class="qr-container">
+            <div id="qrcode"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="direccion-farmacia-row">
+        <span id="out_direccion" class="direccion-text"></span>
+        <span class="farmacia-msg">Asegura tu medicamento presentando tu receta en Farmacia</span>
+      </div>
+    </div>
+
+    <!-- Cuerpo Principal de la Receta -->
+    <div class="body-box">
+      <div class="campo-inline fecha-row">
+        <label>Fecha:</label>
+        <span id="out_fecha_receta"></span>
+      </div>
+
+      <div class="prescripcion-area">
+        <div id="out_meds_formatted" class="meds-display"></div>
+      </div>
+
+      <div class="footer-body">
+        <div class="grid-medico">
+          <div class="campo-inline flex-col">
+            <label>Nombre y firma del Médico</label>
+            <span id="out_medico" class="bold"></span>
+          </div>
+          <div class="campo-inline flex-col">
+            <label>Cédula Profesional</label>
+            <span id="out_cedula" class="bold"></span>
+          </div>
+          <div class="campo-inline flex-col right-align">
+            <label>Matrícula</label>
+            <span id="out_matricula" class="bold text-right"></span>
+          </div>
+        </div>
+
+        <div class="imss-digital-row">
+          <p class="legales-imss">
+            El IMSS pensando en ti y valorando tu tiempo, hoy cuenta con trámites digitales para que no hagas más filas.
+            Visita <span class="link-bold">www.imss.gob.mx/servicios-digitales</span> o descarga la <span class="link-bold">"App IMSS Digital"</span> y realiza tus trámites desde internet de una manera rápida y sencilla.
+          </p>
+          <div class="paciente-tag">PACIENTE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie Inferior Ajustado Estrictamente al Fondo A4 -->
+    <div class="page-footer-url">
+      <span class="url-sistema">http://11.105.15.16:9070/ServiciosAuxiliares/ImpReceta.jsp</span>
+      <span id="out_fecha_pie" class="input-fecha-footer text-right"></span>
+    </div>
+
+  </div>
+
+  <!-- Script Lógica Formulario y Generación -->
+  <script>
+    // Catálogo de Medicamentos Estándar del IMSS
+    const CATALOGO_IMSS = {
+      bismuto: `SUBSALICILATO DE BISMUTO SUSPENSIÓN. CADA 100 ML CON TIENEN: SUBSALICILATO DE BISMUTO 1.75 G. EN VASE CON 240 ML. Vía de administración: Oral. 30 ML cada 6 hora(s) durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
+      loperamida: `LOPERAMIDA CÁPSULA. CADA CÁPSULA CONTIENE: CLORHIDRATO DE LOPERAMIDA 2 MG. EN VASE CON 12 CÁPSULAS. Vía de administración: Oral. Una cápsula cada 8 hora(s) durante 3 día(s).\nCantidad a surtir: 1 ENV.`,
+      omeprazol: `OMEPRAZOL CÁPSULA. CADA CÁPSULA CONTIENE: OMEPRAZOL 20 MG. EN VASE CON 14 CÁPSULAS. Vía de administración: Oral. Tomar una cápsula cada 24 hora(s) en ayunas durante 14 día(s).\nCantidad a surtir: 1 ENV.`,
+      metoclopramida: `METOCLOPRAMIDA TABLETA. CADA TABLETA CONTIENE: CLORHIDRATO DE METOCLOPRAMIDA 10 MG. EN VASE CON 20 TABLETAS. Vía de administración: Oral. Una tarjeta cada 8 hora(s) antes de los alimentos durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
+      paracetamol: `PARACETAMOL TABLETA. CADA TABLETA CONTIENE: PARACETAMOL 500 MG. EN VASE CON 10 TABLETAS. Vía de administración: Oral. Una tarjeta cada 8 hora(s) en caso de dolor o fiebre durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
+      ibuprofeno: `IBUPROFENO TABLETA. CADA TABLETA CONTIENE: IBUPROFENO 400 MG. EN VASE CON 10 TABLETAS. Vía de administración: Oral. Una tarjeta cada 8 hora(s) junto con alimentos durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
+      naproxeno: `NAPROXENO TABLETA. CADA TABLETA CONTIENE: NAPROXENO 250 MG. EN VASE CON 30 TABLETAS. Vía de administración: Oral. Tomar una tarjeta cada 12 hora(s) durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
+      ketorolaco: `KETOROLACO TROMETAMINA TABLETA. CADA TABLETA CONTIENE: KETOROLACO TROMETAMINA 10 MG. EN VASE CON 10 TABLETAS. Vía de administración: Oral. Una tarjeta cada 8 hora(s) máximo por 4 día(s).\nCantidad a surtir: 1 ENV.`,
+      trimetoprima: `TRIMETOPRIMA / SULFAMETOXAZOL TABLETA. CADA TABLETA CON TIENE: TRIMETOPRIMA 160 MG Y SULFAMETOXAZOL 800 MG. EN VASE CON 14 TABLETAS. Vía de administración: Oral. Una tarjeta cada 12 hora(s) durante 7 día(s).\nCantidad a surtir: 1 ENV.`,
+      amoxicilina: `AMOXICILINA CÁPSULA. CADA CÁPSULA CONTIENE: AMOXICILINA TRIHIDRATADA EQUIVALENTE A 500 MG DE AMOXICILINA. EN VASE CON 12 CÁPSULAS. Vía de administración: Oral. Una cápsula cada 8 hora(s) durante 7 día(s).\nCantidad a surtir: 1 ENV.`,
+      amoxicilina_clav: `AMOXICILINA / ÁCIDO CLAVULÁNICO TABLETA. CADA TABLETA CONTIENE: AMOXICILINA 500 MG Y ÁCIDO CLAVULÁNICO 125 MG. EN VASE CON 15 TABLETAS. Vía de administración: Oral. Una tarjeta cada 8 hora(s) durante 7 día(s).\nCantidad a surtir: 1 ENV.`,
+      ambroxol: `AMBROXOL SOLUCIÓN. CADA 100 ML CONTIENE: CLORHIDRATO DE AMBROXOL 300 MG. EN VASE CON 120 ML. Vía de administración: Oral. 5 ML cada 8 hora(s) durante 5 día(s).\nCantidad a surtir: 1 ENV.`,
+      losartan: `LOSARTÁN TABLETA. CADA TABLETA CONTIENE: LOSARTÁN POTÁSICO 50 MG. EN VASE CON 30 TABLETAS. Vía de administración: Oral. Tomar una tarjeta cada 24 hora(s) por la mañana.\nCantidad a surtir: 1 ENV.`,
+      captopril: `CAPTOPRIL TABLETA. CADA TABLETA CONTIENE: CAPTOPRIL 25 MG. EN VASE CON 30 TABLETAS. Vía de administración: Oral. Tomar una tarjeta cada 12 hora(s).\nCantidad a surtir: 1 ENV.`,
+      metformina: `METFORMINA TABLETA. CADA TABLETA CONTIENE: CLORHIDRATO DE METFORMINA 850 MG. EN VASE CON 30 TABLETAS. Vía de administración: Oral. Tomar una tarjeta cada 12 hora(s) después de los alimentos.\nCantidad a surtir: 1 ENV.`,
+      glibenclamida: `GLIBENCLAMIDA TABLETA. CADA TABLETA CONTIENE: GLIBENCLAMIDA 5 MG. EN VASE CON 50 TABLETAS. Vía de administración: Oral. Tomar una tarjeta cada 24 hora(s) antes del desayuno.\nCantidad a surtir: 1 ENV.`
+    };
+
+    // Cargar medicamentos iniciales de ejemplo
+    document.getElementById('f_prescripcion_text').value = 
+      CATALOGO_IMSS.bismuto + "\n\n" + CATALOGO_IMSS.loperamida + "\n\n" + CATALOGO_IMSS.trimetoprima;
+
+    function agregarMedicamentoPredefinido() {
+      const select = document.getElementById('select_imss');
+      const key = select.value;
+      if (!key) return;
+
+      const textarea = document.getElementById('f_prescripcion_text');
+      const medicamentotxt = CATALOGO_IMSS[key];
+
+      if (textarea.value.trim().length > 0) {
+        textarea.value += "\n\n" + medicamentotxt;
+      } else {
+        textarea.value = medicamentotxt;
+      }
+      
+      select.value = "";
+      generarYActualizarReceta();
+    }
+
+    function formatearMedicamentos(texto) {
+      const lineas = texto.split('\n');
+
+      const lineasProcesadas = lineas.map(linea => {
+        let l = linea;
+
+        // Subrayar envases y volúmenes en ML
+        l = l.replace(/\b(\d+\s+ENV\.)/g, '<span class="subrayado-mayuscula">$1</span>');
+        l = l.replace(/\b(\d+\s+ML)\b/g, '<span class="subrayado-mayuscula">$1</span>');
+
+        const regexVia = /(.*?)(Vía de administración:.*|Vía.*|$)/s;
+        const match = l.match(regexVia);
+
+        if (match) {
+          let parteFarmaco = match[1];
+          let parteVia = match[2];
+
+          // Subrayar palabras complejas/fármacos en mayúsculas
+          parteFarmaco = parteFarmaco.replace(/\b([A-ZÁÉÍÓÚÑ0-9\/\.\-]+(?:\s+[A-ZÁÉÍÓÚÑ0-9\/\.\-]+)*)\b/g, function(m) {
+            if (/[A-ZÁÉÍÓÚÑ]/.test(m)) {
+              return '<span class="subrayado-mayuscula">' + m + '</span>';
+            }
+            return m;
+          });
+
+          return parteFarmaco + parteVia;
+        }
+
+        return l;
+      });
+
+      return lineasProcesadas.join('<br>');
+    }
+
+    function generarYActualizarReceta() {
+      // 1. Mapeo de campos de texto
+      document.getElementById('out_nombre').innerText = document.getElementById('f_nombre').value;
+      document.getElementById('out_nss').innerText = document.getElementById('f_nss').value;
+      document.getElementById('out_amed').innerText = document.getElementById('f_amed').value;
+      document.getElementById('out_curp').innerText = document.getElementById('f_curp').value;
+      document.getElementById('out_delegacion').innerText = document.getElementById('f_delegacion').value;
+      document.getElementById('out_cveptal').innerText = document.getElementById('f_cveptal').value;
+      document.getElementById('out_unidad').innerText = document.getElementById('f_unidad').value;
+      document.getElementById('out_turno').innerText = document.getElementById('f_turno').value;
+      document.getElementById('out_consultorio').innerText = document.getElementById('f_consultorio').value;
+      
+      const folio = document.getElementById('f_folio').value || '00000000000000';
+      document.getElementById('out_folio').innerText = folio;
+      document.getElementById('out_direccion').innerText = document.getElementById('f_direccion').value;
+      document.getElementById('out_fecha_receta').innerText = document.getElementById('f_fecha_receta').value;
+      
+      document.getElementById('out_medico').innerText = document.getElementById('f_medico').value;
+      document.getElementById('out_cedula').innerText = document.getElementById('f_cedula').value;
+      document.getElementById('out_matricula').innerText = document.getElementById('f_matricula').value;
+      document.getElementById('out_fecha_pie').innerText = document.getElementById('f_fecha_pie').value;
+
+      // 2. Formatear y Renderizar Medicamentos
+      const rawText = document.getElementById('f_prescripcion_text').value;
+      document.getElementById('out_meds_formatted').innerHTML = formatearMedicamentos(rawText);
+
+      // 3. Generar Código de Barras
+      JsBarcode("#barcode", folio, {
+        format: "CODE128",
+        height: 60,
+        width: 1.8,
+        displayValue: false,
+        margin: 0
+      });
+
+      // 4. Generar QR
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), {
+        text: folio,
+        width: 65,
+        height: 65
+      });
+    }
+
+    // Inicializar al cargar la página
+    window.onload = function() {
+      generarYActualizarReceta();
+    };
+  </script>
+</body>
+</html>
